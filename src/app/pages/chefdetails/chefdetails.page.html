@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-button slot="start" class="menu_btn">
+      <ion-back-button color="light" defaultHref="search-chef"></ion-back-button>
+    </ion-button>
+    <ion-title>Les repas disponibles</ion-title>
+
+    <!-- Afficher l'image du chef et son nom -->
+    <ion-buttons slot="end">
+      <img *ngIf="chef?.photoUrl" [src]="chef.photoUrl" alt="Photo de Chef" class="chef-image">
+      <span *ngIf="chef?.name">{{ chef.name }}</span>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let order of orders">
+    <p id="date">{{ order.date }}</p>
+    <div class="upperBox" *ngFor="let singleOrder of order.order">
+      <div class="image">
+        <img [src]="singleOrder.imageUrl"> <!-- Lien vers l'image des repas -->
+      </div>
+      <div class="title">
+        <h3>{{ singleOrder.title }}</h3>
+      </div>
+      <div class="menu">
+        <h3>
+          <ion-icon name="ellipsis-vertical-outline" (click)="presentPopover($event)"></ion-icon>
+        </h3>
+      </div>
+      <div class="orderId">
+        <p>Order ID: #{{ singleOrder.transId }}</p>
+      </div>
+      <div class="amount">
+        <h3>${{ singleOrder.amount }}</h3>
+      </div>
+      <div class="status">
+        <p [ngStyle]="{
+              'color': (singleOrder.status === 'CONFIRM') ? 'green' : 'red',
+              'background': (singleOrder.status === 'CONFIRM') ? '#e4f4eb' : '#f7d0c7'
+            }">
+          {{ singleOrder.status }}
+        </p>
+      </div>
+      <div class="time">
+        <p>Est. time : {{singleOrder.time}}</p>
+      </div>
+      <div class="edit">
+        <button class="btn" type="submit">
+          Reorder
+        </button>
+      </div> 
+    </div>
+  </div>
+</ion-content>
