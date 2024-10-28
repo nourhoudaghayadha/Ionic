@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="danger">
-    <ion-button slot="start" class="menu_btn">
+    <ion-button slot="start" class="menu_btn" (click)="goToAddPage()">
       <ion-back-button color="light" defaultHref="search-chef"></ion-back-button>
     </ion-button>
     <ion-title>Informations du Repas</ion-title>
@@ -13,10 +13,9 @@
     
     <ion-item>
       <ion-label position="floating">Nom du repas</ion-label>
-      <ion-input name="nom" type="text" required ngModel></ion-input> <!-- Assurez-vous que ce champ est présent -->
+      <ion-input name="nom" type="text" [(ngModel)]="currentRepas.nom" required></ion-input>
     </ion-item>
     
-    <!-- Compétences culinaires -->
     <ion-item>
       <ion-label position="floating">Compétences culinaires</ion-label>
       <ion-select name="skills" multiple="true" required [(ngModel)]="selectedSkills" (ionChange)="onSkillChange()">
@@ -28,46 +27,38 @@
       </ion-select>
     </ion-item>
 
-    <!-- Champ pour entrer une autre compétence -->
     <ion-item *ngIf="showOtherInput">
       <ion-label position="floating">Autre compétence</ion-label>
-      <ion-input type="text" [(ngModel)]="otherSkill"name="otherSkill"></ion-input>
+      <ion-input type="text" [(ngModel)]="otherSkill" name="otherSkill"></ion-input>
     </ion-item>
 
-    <!-- Types de plats proposés -->
     <ion-item>
       <ion-label position="floating">Types de plats proposés</ion-label>
-      <ion-select name="typesFood" multiple="true" required ngModel>
-        <ion-select-option value="entree">Entrée</ion-select-option>
+      <ion-select name="typesFood" multiple="true" required [(ngModel)]="currentRepas.typesFood">
         <ion-select-option value="plat_principal">Plat Principal</ion-select-option>
+        <ion-select-option value="entree">Entrée</ion-select-option>
         <ion-select-option value="dessert">Dessert</ion-select-option>
-        <ion-select-option value="boissons">Boissons</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <!-- Localisation -->
     <ion-item>
       <ion-label position="floating">Localisation</ion-label>
-      <ion-input name="localisation" type="text" required ngModel></ion-input>
+      <ion-input name="localisation" type="text" [(ngModel)]="currentRepas.localisation" required></ion-input>
     </ion-item>
 
-    <!-- Intervalle de prix -->
     <ion-item>
-      <ion-label position="floating">Intervalle de prix</ion-label>
-      <ion-range dualKnobs="true" name="prix" min="5" max="100" [(ngModel)]="prix">
+      <ion-label position="floating">Prix</ion-label>
+      <ion-range name="prix" [(ngModel)]="prix" min="0" max="1000" pin="true" snaps="true" color="danger">
         <ion-label slot="start">$5</ion-label>
         <ion-label slot="end">$100</ion-label>
       </ion-range>
     </ion-item>
 
-    <!-- Photo -->
     <ion-item>
-      <ion-label position="floating">Photo</ion-label>
-      <input type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;" #fileInput />
-      <ion-button (click)="fileInput.click()">Choisir un fichier</ion-button>
+      <ion-label>Image</ion-label>
+      <input type="file" (change)="onFileSelected($event)" name="image">
     </ion-item>
 
-    <!-- Bouton de soumission -->
-    <ion-button expand="full" type="submit" color="primary" [disabled]="!repasForm.form.valid">Enregistrer</ion-button>
+    <ion-button expand="full" type="submit" [disabled]="repasForm.invalid">Soumettre</ion-button>
   </form>
 </ion-content>

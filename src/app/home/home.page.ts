@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-
+import { MealService } from '../service/meal/meal.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -18,7 +18,7 @@ export class HomePage implements OnInit {
     }
   }
 
-  constructor() {}
+  constructor(private mealService: MealService) {}
   ngOnInit(){
 
   }
@@ -69,19 +69,17 @@ export class HomePage implements OnInit {
   }
   
   reset(){
-    this. filters={
-      "meal_type" : "lunch",
-      "cuisine" : "indian",
-      "distance" : 5,
-      "popular" : true,
-      "priceByOrder" : 'highToLow',
-      "price": {
-        "lowerPrice" : "5",
-        "higherPrice": "10",
-      }
+  
     }
+
+
+    applyFilters() {
+      this.mealService.saveFilters(this.filters).subscribe({
+        next: (response: any) => console.log('Filtres enregistrés avec succès dans Firebase !', response),
+        error: (error: any) => console.error('Erreur lors de l\'enregistrement des filtres :', error)
+      });
+    }
+    
   }
-  applyFilters(){
-    console.log(this.filters)
-  }
-}
+ 
+

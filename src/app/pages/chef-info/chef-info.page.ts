@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { RepasService } from '../../service/chef/repas/repas.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chef-info',
@@ -10,7 +11,6 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./chef-info.page.scss'],
 })
 export class ChefInfoPage implements OnInit {
-  
   selectedSkills: string[] = [];
   showOtherInput: boolean = false;
   otherSkill: string = '';
@@ -19,9 +19,45 @@ export class ChefInfoPage implements OnInit {
   selectedImage: File | null = null;
   imageUrl: string = '';
 
-  constructor(private repasService: RepasService, private storage: AngularFireStorage) {}
+  // Propriétés pour la mise à jour
+  repasId: string | null = null; // ID du repas à mettre à jour
+  currentRepas: { nom: string; skills: string[]; typesFood: string[]; localisation: string; prix: any; photoUrl: string } = {
+    nom: '',
+    skills: [],
+    typesFood: [],
+    localisation: '',
+    prix: { lower: 5, upper: 100 },
+    photoUrl: ''
+  };
 
-  ngOnInit() {}
+  constructor(
+    private repasService: RepasService,
+    private storage: AngularFireStorage,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
+    // Récupérer l'ID du repas depuis les paramètres de la route
+    this.route.paramMap.subscribe(params => {
+      this.repasId = params.get('id');
+      if (this.repasId) {
+        this.loadRepas(this.repasId);
+      }
+    });
+  }
+
+  // Charger les données du repas
+  loadRepas(id: string) {
+    this.repasService.getRepasById(id).subscribe(repas => {
+      this.currentRepas = repas;
+      this.selectedSkills = repas.skills;
+      this.otherSkill = repas.skills.includes('autre') ? repas.skills.find((skill: string) => skill === 'autre') : '';
+      this.prix = repas.prix;
+      this.imageUrl = repas.photoUrl;
+      // Pré-remplir le formulaire avec les données du repas
+    });
+  }
 
   onSkillChange() {
     this.showOtherInput = this.selectedSkills.includes('autre');
@@ -47,7 +83,7 @@ export class ChefInfoPage implements OnInit {
           })
         ).subscribe();
       } else {
-        resolve(''); // Pas d'image à uploader
+        resolve(this.imageUrl); // Utiliser l'URL de l'image existante si aucune nouvelle image n'est sélectionnée
       }
     });
   }
@@ -66,22 +102,43 @@ export class ChefInfoPage implements OnInit {
           prix: this.prix,
           photoUrl: url
         };
-  
-        this.repasService.addRepas(chefData).subscribe(
-          () => {
-            console.log('Repas ajouté avec succès');
-            form.resetForm();
-            this.selectedSkills = [];
-            this.otherSkill = '';
-            this.showOtherInput = false;
-            this.selectedImage = null;
-          },
-          error => console.error('Erreur lors de l\'ajout du repas :', error)
-        );
+
+        if (this.repasId) {
+          // Mise à jour du repas existant
+          this.repasService.updateRepas(this.repasId, chefData).subscribe(
+            () => {
+              console.log(`Repas mis à jour avec succès, ID: ${this.repasId}`);
+              form.resetForm();
+              this.selectedSkills = [];
+              this.otherSkill = '';
+              this.showOtherInput = false;
+              this.selectedImage = null;
+              this.router.navigate(['/chefdetails']);
+            },
+            error => console.error('Erreur lors de la mise à jour du repas :', error)
+          );
+        } else {
+          // Ajout d'un nouveau repas
+          this.repasService.addRepas(chefData).subscribe(
+            (id) => {
+              console.log(`Repas ajouté avec succès, ID: ${id}`);
+              form.resetForm();
+              this.selectedSkills = [];
+              this.otherSkill = '';
+              this.showOtherInput = false;
+              this.selectedImage = null;
+              this.router.navigate(['/chefdetails']);
+            },
+            error => console.error('Erreur lors de l\'ajout du repas :', error)
+          );
+        }
       }).catch(error => console.error('Erreur lors du téléchargement de l\'image :', error));
     } else {
       console.log('Formulaire invalide', form);
     }
   }
   
+  goToAddPage() {
+    this.router.navigate(['/chefdetails']); // Redirige vers la page d'ajout de repas
+  }
 }
