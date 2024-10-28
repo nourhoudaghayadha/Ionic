@@ -1,0 +1,150 @@
+ion-header {
+  ion-icon {
+    font-size: 30px;
+    position: relative;
+    margin-right: 10px;
+  }
+
+  #notifications-badge-msg {
+    background-color: rgb(67, 7, 233);
+    position: absolute;
+    top: 5px;
+    right: 95px;
+    color: #fff;
+    z-index: 111;
+  }
+
+  #notifications-badge {
+    background-color: rgb(67, 7, 233);
+    position: absolute;
+    top: 5px;
+    right: 50px;
+    color: #fff;
+    z-index: 111;
+  }
+
+  img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+}
+
+ion-content {
+  --background: #f0f0f2;
+
+  .top {
+    background-color: #f9f9f9;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 30px;
+
+    ion-segment {
+      margin-top: 10px;
+      border: 1px solid #f15b3a;
+
+      ion-segment-button {
+        --background-checked: #f15b3a;
+        --color-checked: #fff;
+        --indicator-color: #f15b3a;
+        font-size: 18px;
+        --color: #f15b3a;
+      }
+    }
+  }
+
+  #date {
+    padding-left: 20px;
+  }
+
+  .upperBox {
+    background-color: #fff;
+    margin-top: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    display: grid;
+    grid-template-columns: 40% 35% 15% 10%;
+    grid-template-rows: 15% 35% 35% 15%;
+    gap: 5px;
+    grid-template-areas:
+      "image title title menu"
+      "image orderId orderId orderId"
+      "image amount status status"
+      "image time edit edit";
+
+    .image {
+      grid-area: image;
+
+      img {
+        padding: 10px;
+        border-radius: 5px;
+        height: auto;
+        width: 100%;
+      }
+    }
+
+    .title {
+      grid-area: title;
+      color: #f15b3a;
+
+      h3 {
+        font-size: 16px;
+      }
+    }
+
+    .menu {
+      grid-area: menu;
+      margin-right: 10px;
+      justify-self: center;
+    }
+
+    .orderId {
+      grid-area: orderId;
+
+      p {
+        color: gray;
+      }
+    }
+
+    .amount {
+      grid-area: amount;
+      align-self: start;
+      justify-self: start;
+      margin-top: -25px;
+    }
+
+    .status {
+      grid-area: status;
+
+      p {
+        margin-right: 20px;
+        margin-top: -8px;
+        font-size: 12px;
+        background: #e4f4eb;
+        padding: 5px;
+        text-align: center;
+        color: green;
+      }
+    }
+    .time{
+      grid-area: time;
+      p {
+          margin-top: -30px;
+      }
+    }
+    .edit{
+      grid-area: edit;
+       margin-top: -30px;
+          .btn{
+              font-size: 18px;
+              background: #f15b3a;
+              padding: 5px;
+              text-align: center;
+              color: #fff
+          }
+      }
+  }
+}

@@ -3,15 +3,19 @@
     <ion-button slot="start" class="menu_btn">
       <ion-back-button color="light" defaultHref="search-chef"></ion-back-button>
     </ion-button>
-    <ion-title>Informations du Chef</ion-title>
+    <ion-title>Informations du Repas</ion-title>
     <img slot="end" src="../../assets/001.jpeg">
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Formulaire utilisant ngForm -->
-  <form #chefForm="ngForm" (ngSubmit)="onSubmit(chefForm)">
-  
+  <form #repasForm="ngForm" (ngSubmit)="onSubmit(repasForm)">
+    
+    <ion-item>
+      <ion-label position="floating">Nom du repas</ion-label>
+      <ion-input name="nom" type="text" required ngModel></ion-input> <!-- Assurez-vous que ce champ est présent -->
+    </ion-item>
+    
     <!-- Compétences culinaires -->
     <ion-item>
       <ion-label position="floating">Compétences culinaires</ion-label>
@@ -27,7 +31,7 @@
     <!-- Champ pour entrer une autre compétence -->
     <ion-item *ngIf="showOtherInput">
       <ion-label position="floating">Autre compétence</ion-label>
-      <ion-input type="text" [(ngModel)]="otherSkill"></ion-input>
+      <ion-input type="text" [(ngModel)]="otherSkill"name="otherSkill"></ion-input>
     </ion-item>
 
     <!-- Types de plats proposés -->
@@ -55,16 +59,15 @@
         <ion-label slot="end">$100</ion-label>
       </ion-range>
     </ion-item>
- <!-- photo -->
- <ion-item>
-  <ion-label position="floating">Photo</ion-label>
-  <input type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;" #fileInput />
-  <ion-button (click)="fileInput.click()">Choisir un fichier</ion-button>
-</ion-item>
 
-
+    <!-- Photo -->
+    <ion-item>
+      <ion-label position="floating">Photo</ion-label>
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;" #fileInput />
+      <ion-button (click)="fileInput.click()">Choisir un fichier</ion-button>
+    </ion-item>
 
     <!-- Bouton de soumission -->
-    <ion-button expand="full" type="submit" color="primary" [disabled]="!chefForm.form.valid">Enregistrer</ion-button>
+    <ion-button expand="full" type="submit" color="primary" [disabled]="!repasForm.form.valid">Enregistrer</ion-button>
   </form>
 </ion-content>

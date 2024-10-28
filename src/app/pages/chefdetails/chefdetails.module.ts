@@ -17,4 +17,6 @@ import { ChefdetailsPage } from './chefdetails.page';
   ],
   declarations: [ChefdetailsPage]
 })
-export class ChefdetailsPageModule {}
+export class ChefdetailsPageModule {
+  
+}

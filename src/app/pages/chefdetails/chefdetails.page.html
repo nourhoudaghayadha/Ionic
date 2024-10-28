@@ -4,50 +4,41 @@
       <ion-back-button color="light" defaultHref="search-chef"></ion-back-button>
     </ion-button>
     <ion-title>Les repas disponibles</ion-title>
-
-    <!-- Afficher l'image du chef et son nom -->
-    <ion-buttons slot="end">
-      <img *ngIf="chef?.photoUrl" [src]="chef.photoUrl" alt="Photo de Chef" class="chef-image">
-      <span *ngIf="chef?.name">{{ chef.name }}</span>
-    </ion-buttons>
+    <ion-icon name="notifications" slot="end"></ion-icon>
+    <ion-icon name="add" slot="end"></ion-icon>
+    <img slot="end" src="../../assets/001.jpeg">
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let order of orders">
-    <p id="date">{{ order.date }}</p>
-    <div class="upperBox" *ngFor="let singleOrder of order.order">
+  <div *ngFor="let repas of repasList">
+    <div class="upperBox">
       <div class="image">
-        <img [src]="singleOrder.imageUrl"> <!-- Lien vers l'image des repas -->
+        <img [src]="repas.photoUrl" alt="{{ repas.nom }}">
       </div>
       <div class="title">
-        <h3>{{ singleOrder.title }}</h3>
+        <h3>{{ repas.nom }}</h3>
       </div>
       <div class="menu">
         <h3>
-          <ion-icon name="ellipsis-vertical-outline" (click)="presentPopover($event)"></ion-icon>
+          <ion-icon name="close" (click)="deleteRepas()"></ion-icon> <!-- Ajout d'une fonction pour supprimer -->
         </h3>
       </div>
       <div class="orderId">
-        <p>Order ID: #{{ singleOrder.transId }}</p>
+        <p>Order ID: #{{ repas.id }}</p>
       </div>
       <div class="amount">
-        <h3>${{ singleOrder.amount }}</h3>
+        <h3>${{ repas.prix }}</h3> <!-- Utilisation du champ prix -->
       </div>
       <div class="status">
-        <p [ngStyle]="{
-              'color': (singleOrder.status === 'CONFIRM') ? 'green' : 'red',
-              'background': (singleOrder.status === 'CONFIRM') ? '#e4f4eb' : '#f7d0c7'
-            }">
-          {{ singleOrder.status }}
-        </p>
+        <p>Status: {{ repas.status }}</p> <!-- Utilisation du champ status -->
       </div>
       <div class="time">
-        <p>Est. time : {{singleOrder.time}}</p>
+        <p>Est. time: {{ repas.tempsEstime }} min</p> <!-- Utilisation du champ tempsEstime -->
       </div>
       <div class="edit">
-        <button class="btn" type="submit">
-          Reorder
+        <button class="btn" (click)="updateRepas(repas)">
+          Update
         </button>
       </div> 
     </div>
