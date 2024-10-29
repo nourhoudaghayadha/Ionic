@@ -6,6 +6,7 @@ import { Food } from 'src/app/models/food.model';
 import { Order } from 'src/app/models/order.model';
 import { OrderService } from 'src/app/service/order.service';
 import { ChefService } from 'src/app/service/chef.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-home',
@@ -26,8 +27,9 @@ export class UserHomePage implements OnInit {
   constructor(
     private authService: AuthService,
     private foodService: FoodService,
-    private orderService: OrderService,
-    private chefService: ChefService
+    private modalController: ModalController,
+    private chefService: ChefService,
+    private orderService: OrderService
   ) {
     this.userName$ = this.authService.getUserName(); // Directly use the Observable from AuthService
   }
@@ -53,6 +55,15 @@ export class UserHomePage implements OnInit {
       }
     });
   }
+
+
+  // async openFoodDetail(food: Food) {
+  //   const modal = await this.modalController.create({
+  //     component: FoodDetailModalComponent,
+  //     componentProps: { food }
+  //   });
+  //   await modal.present();
+  // }
 
   submitRating() {
     if (this.selectedFoodId && this.rating > 0) {

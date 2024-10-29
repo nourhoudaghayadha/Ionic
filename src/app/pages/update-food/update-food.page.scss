@@ -1,4 +1,4 @@
-.add-food-content {
+.update-food-content {
     --background: #f4f5f8; /* Background color for the content area */
     display: flex;
     align-items: center;
@@ -8,25 +8,25 @@
 }
 
 .form-wrapper {
-    background-color: #ffffff; /* White background for form */
-    border-radius: 16px; /* Increased border radius for softer corners */
+    background-color: #ffffff; /* White background for the form */
+    border-radius: 16px; /* Softer corners */
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Slightly darker shadow */
-    padding: 30px; /* Increased padding for more spacing */
+    padding: 30px; /* Adjusted padding for more spacious feel */
     max-width: 500px;
     width: 100%;
 }
 
-.add-food-form ion-item {
+.update-food-form ion-item {
     --background: #ffffff; /* White background for each item */
     --color: #333;
-    margin-bottom: 20px; /* More space between items */
+    margin-bottom: 20px; /* Adjusted space between items */
     border-radius: 8px; /* Rounded corners for input fields */
 }
 
 .image-preview {
     max-width: 100%;
     border-radius: 8px; /* Rounded corners for image preview */
-    margin-top: 10px;
+    margin-top: 10px; /* Adjusted margin for visual spacing */
     border: 2px solid #007bff; /* Border around image preview */
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
@@ -34,16 +34,17 @@
 .header-title {
     text-align: center;
     font-weight: bold;
-    font-size: 1.5em; /* Increased font size for header */
-    margin-bottom: 20px; /* Space below the title */
+    font-size: 1.5em; /* Adjusted font size for prominence */
+    margin-bottom: 20px; /* Adjusted space below the title */
+    color: #000000; /* Primary color for the title */
 }
 
 .submit-button {
     margin-top: 20px;
     --background: #007bff; /* Primary color for the button */
     --color: #fff;
-    border-radius: 20px; /* Rounded corners for button */
-    padding: 10px; /* Increased padding for better touch target */
+    border-radius: 20px; /* Adjusted rounded corners for the button */
+    padding: 10px; /* Adjusted padding for better touch target */
     transition: background-color 0.3s ease; /* Smooth transition */
 }
 
@@ -54,15 +55,9 @@
 ion-content {
     --background: #f4f5f8; /* Light gray background */
 }
-.add-food-form ion-item {
-    --background: #ffffff; /* White background for each item */
-    --color: #333;
-    margin-bottom: 20px; /* More space between items */
-    border-radius: 8px; /* Rounded corners for input fields */
-}
 
 ion-input {
-    font-size: 1rem; /* Increase font size for better readability */
+    font-size: 1rem; /* Increase font size for readability */
     padding: 10px; /* Padding inside the input */
 }
 
@@ -71,3 +66,4 @@ ion-input::placeholder {
     color: #aaa; /* Lighter color for the placeholder */
     opacity: 1; /* Ensure full visibility */
 }
+

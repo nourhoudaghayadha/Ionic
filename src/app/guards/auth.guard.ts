@@ -10,15 +10,16 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class AuthGuard implements CanActivate {
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
-
   canActivate(): Observable<boolean> {
     return this.afAuth.authState.pipe(
-      take(1), // Only get the first value
+      take(1),
       map((user) => {
+        console.log('User state:', user); // Debugging log
         if (user) return true;
         this.router.navigate(['/login'], { replaceUrl: true });
         return false;
       })
     );
   }
+  
 }

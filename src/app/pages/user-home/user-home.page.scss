@@ -1,55 +1,74 @@
+/* Neutral header toolbar styling */
+ion-toolbar {
+  --background: #f8f9fa; /* Light gray background */
+  --color: #333; /* Dark text */
+  font-weight: bold;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Avatar styling */
+.avatar img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Banner with a subtle gradient */
 .banner {
-    text-align: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #ff8a00, #e52e71);
-    color: white;
-    border-radius: 12px;
-    margin-bottom: 16px;
-  }
-  
-  .filters {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin-bottom: 16px;
-  }
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f0f5, #d9dde2); /* Soft gradient in neutral colors */
+  color: #333;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Light shadow for a floating effect */
+}
 
-  ion-toolbar{
+/* Section title */
+.section-title {
+  margin: 16px 0 10px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #444; /* Dark gray */
+  text-align: left;
+}
 
-    background: #000;
+/* Card grid for responsive design */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
 
-  }
-  
-  .section-title {
-    margin: 20px 0 10px;
-    font-weight: bold;
-    font-size: 1.5rem;
-    text-align: left;
-  }
-  
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-  }
-  
-  .food-card {
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .food-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .price {
-    font-weight: bold;
-    color: #ff5722;
-    margin-top: 8px;
-  }
-  
-  ion-content {
-    --background: #36373b;
-  }
+/* Card styles */
+.food-card {
+  background-color: #ffffff; /* White background */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s;
+}
+
+.food-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* Food description and price styling */
+.food-description {
+  color: #666; /* Medium gray */
+  margin-top: 6px;
+}
+
+.price {
+  font-weight: bold;
+  color: #444; /* Darker gray for better contrast */
+  margin-top: 6px;
+  font-size: 1.1rem;
+}
+
+/* Light, neutral background */
+ion-content {
+  --background: #f2f3f7; /* Light neutral gray */
+}

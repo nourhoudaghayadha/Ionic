@@ -70,6 +70,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'update-food/:id',
+    loadChildren: () => import('./pages/update-food/update-food.module').then(m => m.UpdateFoodPageModule),
+    canActivate: [AuthGuard] 
+  },
+  {
     path: 'chef-home',
     loadChildren: () => import('./pages/chef-home/chef-home.module').then(m => m.ChefHomePageModule),
     canActivate: [AuthGuard]
@@ -78,7 +83,11 @@ const routes: Routes = [
     path: '**', // Fallback route for unknown paths
     redirectTo: 'login',
     pathMatch: 'full'
-  }
+  },
+ 
+
+ 
+
 ];
 
 @NgModule({

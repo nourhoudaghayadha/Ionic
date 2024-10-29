@@ -23,6 +23,12 @@ export class FoodService {
     private authService: AuthService
   ) {}
 
+
+
+
+
+
+  
   getLatestChefFoodItems(chefId: string): Observable<Food[]> {
     const url = `${this.apiUrl}/food.json?orderBy="chefId"&equalTo="${chefId}"`;
     return this.http.get<{ [key: string]: Food }>(url).pipe(
@@ -101,10 +107,10 @@ export class FoodService {
     );
   }
 
-  // Update a food item
-  updateFood(foodId: string, foodData: Omit<Food, 'id'>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/food/${foodId}.json`, foodData);
-  }
+// Update a food item
+updateFood(foodId: string, foodData: Omit<Food, 'id'>): Observable<any> {
+  return this.http.put(`${this.apiUrl}/food/${foodId}.json`, foodData);
+}
 
   // Delete a food item
   deleteFood(id: string): Observable<any> {
