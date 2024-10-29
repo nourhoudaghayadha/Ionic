@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -56,6 +56,16 @@ const routes: Routes = [
     path: 'add-food',
     loadChildren: () => import('./pages/add-food/food.module').then( m => m.FoodPageModule)
   },
+ 
+  {
+    path: 'user-home',
+    loadChildren: () => import('./pages/user-home/user-home.module').then( m => m.UserHomePageModule)
+  },
+  {
+    path: 'chef-home',
+    loadChildren: () => import('./pages/chef-home/chef-home.module').then( m => m.ChefHomePageModule)
+  },
+
 
 
 

@@ -12,6 +12,13 @@ export interface Rating {
   providedIn: 'root',
 })
 export class FoodService {
+ 
+  getFilteredFood(filters: any): Observable<Food[]> | undefined {
+    throw new Error('Method not implemented.');
+  }
+  getChefFoodItems(): Observable<Food[]> | undefined {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'https://ionicproject-5c0be-default-rtdb.firebaseio.com';
 
   constructor(

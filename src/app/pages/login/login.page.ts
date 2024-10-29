@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
   goToHome() {
     const { email, password } = this.login;
     this.authService.loginUser(email, password)
-      .then(() => this.router.navigate(['/home']))
+      .then(() => this.router.navigate(['/first-page']))
       .catch(err => console.log('Erreur de connexion:', err));
   }
 
