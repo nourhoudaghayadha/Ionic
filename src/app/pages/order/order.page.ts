@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { OrderMenuPage } from '../popop/order-menu/order-menu.page';
 import { RepasService } from '../../service/chef/repas/repas.service';
-
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./order.page.scss'],
 })
 export class OrderPage implements OnInit {
-  repasList: any[] = []; // Tableau pour stocker les repas
+  repasList: any[] = []; // Array to store meals
+  filters: any = {}; // Object to hold filter criteria
 
   constructor(
     private repasService: RepasService, 
@@ -23,33 +23,36 @@ export class OrderPage implements OnInit {
     this.getRepas(); 
   }
 
-  // Méthode pour récupérer les repas depuis Firebase
+  // Method to fetch meals from Firebase based on filters
   getRepas() {
-    this.repasService.getRepas().subscribe((data) => {
+    this.repasService.getRepas(this.filters).subscribe((data) => {
       console.log(data);
-      this.repasList = []; // Réinitialisez le tableau avant d'ajouter des éléments
+      this.repasList = []; // Reset the array before adding elements
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
-          this.repasList.push({ id: key, ...data[key] }); // Ajoutez l'ID ici
+          this.repasList.push({ id: key, ...data[key] }); // Add ID here
         }
       }
     }, (error) => {
-      console.error("Erreur lors de la récupération des repas", error);
+      console.error("Error fetching meals", error);
     });
   }
-  
 
-  // Méthode pour gérer la mise à jour d'un repas
-// Exemple de popover pour éditer un repas
-updateRepas(repas: any) {
-  console.log("Mise à jour du repas:", repas);
-  // Ouvrez un popover ou naviguez vers une page d'édition
-  this.router.navigate(['/chef-info', { repas: JSON.stringify(repas) }]);
-}
+  // Method to handle filter application
+  applyFilters() {
+    this.getRepas(); // Re-fetch meals based on the applied filters
+  }
 
+  // Method to handle the update of a meal
+  updateRepas(repas: any) {
+    console.log("Updating meal:", repas);
+    this.router.navigate(['/chef-info', { repas: JSON.stringify(repas) }]);
+  }
 
   segmentChange(ev: any) {
     console.log(ev.detail.value);
+    this.filters.orderStatus = ev.detail.value; // Update filters based on selected segment
+    this.applyFilters(); // Apply filters
   }
 
   async presentPopover(ev: any) {
@@ -64,28 +67,22 @@ updateRepas(repas: any) {
 
   deleteRepas(id: string) {
     if (id) {
-      console.log('Suppression de l\'élément avec ID:', id);
+      console.log('Deleting item with ID:', id);
       this.repasService.deleteRepas(id).subscribe(
         () => {
           this.repasList = this.repasList.filter(repas => repas.id !== id);
-          console.log('Repas supprimé avec succès');
+          console.log('Meal deleted successfully');
         },
         (error) => {
-          console.error('Erreur lors de la suppression du repas', error);
+          console.error('Error deleting meal', error);
         }
       );
     } else {
-      console.error('ID invalide pour la suppression');
+      console.error('Invalid ID for deletion');
     }
   }
   
-  
   goToAddPage() {
-    
-    
-    this.router.navigate(['/chef-info']); // Redirige vers la page d'ajout de repas
-      }
-  
-
-
+    this.router.navigate(['/chef-info']); // Redirect to meal addition page
+  }
 }

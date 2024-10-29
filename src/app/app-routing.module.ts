@@ -48,6 +48,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/chef-info/chef-info.module').then( m => m.ChefInfoPageModule)
   },
 
+  {
+    path: 'first-page',
+    loadChildren: () => import('./pages/first-page/first-page.module').then( m => m.FirstPagePageModule)
+  },
+  {
+    path: 'add-food',
+    loadChildren: () => import('./pages/add-food/food.module').then( m => m.FoodPageModule)
+  },
+
+
+
 ];
 
 @NgModule({

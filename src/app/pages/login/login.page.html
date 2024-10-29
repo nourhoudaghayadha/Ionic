@@ -1,15 +1,15 @@
-<ion-content>
+<ion-content class="login-content">
   <div class="upper">
     <div class="icon">
-      <ion-icon name="restaurant"></ion-icon>
+      <ion-icon name="restaurant" class="logo-icon"></ion-icon>
     </div>
-    <p id="login"> HOTEL MANAGEMENT APP</p>
+    <p id="login" class="app-title">HOTEL MANAGEMENT APP</p>
   </div>
 
   <div class="middle">
     <div class="box">
       <form #loginForm="ngForm">
-        <p>Please Login to your Account</p>
+        <p class="form-title">Please Login to your Account</p>
 
         <ion-item>
           <ion-label position="floating">Email Address</ion-label>
@@ -25,21 +25,17 @@
 
         <div *ngIf="email.invalid && email.touched">
           <ion-text color="danger" text-center>
-            <h4 style="padding-left: 20px; margin-top: 10px;">Please write a valid Email Address</h4>
+            <h4 class="error-text">Please write a valid Email Address</h4>
           </ion-text>
         </div>
 
-
-
-
         <ion-item>
           <ion-label position="floating">Password</ion-label>
-          <ion-input [type]="type ?'password':'text'"
+          <ion-input [type]="type ? 'password' : 'text'"
                      name="password"
                      #password="ngModel"
                      [(ngModel)]="login.password"
-                     required
-                     password>
+                     required>
           </ion-input>
           <ion-icon class="ion-align-self-center" slot="end"
            name="eye-outline" (click)="changeType()"></ion-icon>
@@ -47,35 +43,37 @@
 
         <div *ngIf="password.invalid && password.touched">
           <ion-text color="danger" text-center>
-            <h4 style="padding-left: 20px; margin-top: 10px;">Please write a valid password</h4>
+            <h4 class="error-text">Please write a valid password</h4>
           </ion-text>
         </div>
         
-        <p id="forgetPassword"(click)="gotoForget()">Forget Password </p>
+        <p id="forgetPassword" (click)="gotoForget()">Forget Password</p>
         
         <div class="btn">
-          <ion-button (click)="goToHome()" [disabled]="loginForm.invalid">Login</ion-button>
+          <ion-button expand="full" (click)="goToHome()" [disabled]="loginForm.invalid">Login</ion-button>
         </div>
       </form>
-<p id="media"> Or Login using Social Media</p>
-<div class="socialMedia">
- <ion-icon name="logo-facebook" (click)="facebookLogin()"></ion-icon> 
- <ion-icon name="logo-twitter" (click)="twitterLogin()"></ion-icon> 
-  <ion-icon name="logo-google" (click)="gmailLogin()"></ion-icon> 
-
-</div>
-<div class="touchLogin" (click)="touchLogin()">
-  <ion-icon name="finger-print-outline"></ion-icon>
-<p>Sign In Using Touch ID</p>
-</div>
-<div class="faceLogin" (click)="faceLogin()">
-  <ion-icon name="eye-outline"></ion-icon>
-  <p>Sign In With Face ID</p>
-</div>
-</div>
-<div class="navigator">
-  <p (click)="goToRegister()"> Don't have an Account ? Resigster Now</p>
-</div>
-
+      
+      <p id="media">Or Login using Social Media</p>
+      <div class="socialMedia">
+        <ion-icon name="logo-facebook" (click)="facebookLogin()"></ion-icon> 
+        <ion-icon name="logo-twitter" (click)="twitterLogin()"></ion-icon> 
+        <ion-icon name="logo-google" (click)="gmailLogin()"></ion-icon> 
+      </div>
+      
+      <div class="touchLogin" (click)="touchLogin()">
+        <ion-icon name="finger-print-outline"></ion-icon>
+        <p>Sign In Using Touch ID</p>
+      </div>
+      
+      <div class="faceLogin" (click)="faceLogin()">
+        <ion-icon name="eye-outline"></ion-icon>
+        <p>Sign In With Face ID</p>
+      </div>
+    </div>
+    
+    <div class="navigator">
+      <p (click)="goToRegister()">Don't have an Account? Register Now</p>
+    </div>
   </div>
 </ion-content>

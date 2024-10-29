@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +39,13 @@ async resetPassword(email:string){
 async signOut(){
   return await this.ngFireAuth.signOut()
 }
+
+// get all users
+ // Get all users
+ getAllUsers(): Observable<any[]> {
+  return this.firestore.collection('users').valueChanges();
+}
+
 
 }
 

@@ -10,29 +10,52 @@ export class RepasService {
 
   constructor(private http: HttpClient) { }
 
-  // Méthode pour ajouter un repas dans Firebase et récupérer l'ID du document créé
+  // Method to add a meal to Firebase and retrieve the ID of the created document
   addRepas(repasData: any): Observable<string> {
     return this.http.post<{ name: string }>(`${this.apiUrl}/chefs.json`, repasData).pipe(
-      map(response => response.name) // Récupère l'ID `name` du document
+      map(response => response.name) // Retrieve the `name` ID of the document
     );
   }
 
-  // Méthode pour obtenir la liste de tous les repas
-  getRepas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/chefs.json`);
+  // Method to get the list of meals with optional filters
+  getRepas(filters?: any): Observable<any[]> {
+    let queryUrl = `${this.apiUrl}/chefs.json`;
+
+    // Append filters to the query URL if they exist
+    if (filters) {
+      const queryParams = [];
+
+      // Example: if filtering by meal type
+      if (filters.meal_type) {
+        queryParams.push(`orderBy="meal_type"&equalTo="${filters.meal_type}"`);
+      }
+
+      // Add more filters as needed
+      // For example, filtering by a price range
+      if (filters.priceRange) {
+        queryParams.push(`orderBy="price"&startAt=${filters.priceRange.min}&endAt=${filters.priceRange.max}`);
+      }
+
+      // Construct the query string
+      if (queryParams.length > 0) {
+        queryUrl += `?${queryParams.join('&')}`;
+      }
+    }
+
+    return this.http.get<any[]>(queryUrl);
   }
 
-  // Méthode pour obtenir un repas par son ID
+  // Method to get a meal by its ID
   getRepasById(repasId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/chefs/${repasId}.json`);
   }
 
-  // Méthode pour mettre à jour un repas
+  // Method to update a meal
   updateRepas(repasId: string, repasData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/chefs/${repasId}.json`, repasData);
   }
 
-  // Méthode pour supprimer un repas
+  // Method to delete a meal
   deleteRepas(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/chefs/${id}.json`);
   }

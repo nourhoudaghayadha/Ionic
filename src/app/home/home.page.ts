@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { MealService } from '../service/meal/meal.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,8 +18,7 @@ export class HomePage implements OnInit {
       "higherPrice": "10",
     }
   }
-
-  constructor(private mealService: MealService) {}
+  constructor(private mealService: MealService, private router: Router) {}
   ngOnInit(){
 
   }
@@ -73,12 +73,17 @@ export class HomePage implements OnInit {
     }
 
 
-    applyFilters() {
-      this.mealService.saveFilters(this.filters).subscribe({
-        next: (response: any) => console.log('Filtres enregistrés avec succès dans Firebase !', response),
-        error: (error: any) => console.error('Erreur lors de l\'enregistrement des filtres :', error)
-      });
-    }
+    
+applyFilters() {
+  this.mealService.saveFilters(this.filters).subscribe({
+    next: (response: any) => {
+      console.log('Filtres enregistrés avec succès dans Firebase !', response);
+      // Navigate to the order page after applying filters
+      this.router.navigate(['/order'], { queryParams: this.filters });
+    },
+    error: (error: any) => console.error('Erreur lors de l\'enregistrement des filtres :', error)
+  });
+}
     
   }
  
