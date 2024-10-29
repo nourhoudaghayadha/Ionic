@@ -4,6 +4,9 @@
     <ion-buttons slot="end">
       <ion-button *ngIf="!role" routerLink="/login">Login</ion-button>
       <ion-button *ngIf="!role" routerLink="/signup">Signup</ion-button>
+      <ion-button routerLink="/commande">
+        <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-button *ngIf="role" (click)="logout()">Logout</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -15,27 +18,37 @@
     <p>Discover delicious food items tailored just for you.</p>
   </div>
 
-  <!-- <ion-searchbar animated placeholder="Search for food..." (ionInput)="filterFood($event)"></ion-searchbar> -->
-
-  <div class="filters">
-    <!-- <ion-button fill="outline" color="tertiary" (click)="openFilter('cuisine')">Cuisines</ion-button>
-    <ion-button fill="outline" color="tertiary" (click)="openFilter('price')">Price</ion-button>
-    <ion-button fill="outline" color="tertiary" (click)="openFilter('dietary')">Dietary</ion-button>
-    <ion-button fill="outline" color="tertiary" (click)="openFilter('rating')">Top Rated</ion-button> -->
+  <div class="filters" (ionInput)="filterFood()">
+    <ion-button fill="outline" color="tertiary" expand="block" (click)="presentCuisineAlert()">Cuisines</ion-button>
+    <ion-button fill="outline" color="tertiary" expand="block" (click)="presentPriceAlert()">Price</ion-button>
+    <ion-button fill="outline" color="tertiary" expand="block" (click)="presentDietaryAlert()">Dietary</ion-button>
+    <ion-button fill="outline" color="tertiary" expand="block" (click)="presentRatedAlert()">Top Rated</ion-button>
   </div>
 
   <h2 class="section-title">Featured Food Items</h2>
-    <div class="card-grid">
-      <ion-card *ngFor="let food of (featuredFoodItems$ | async)" class="food-card">
-        <ion-img [src]="food.imageUrl || 'assets/default-food.jpg'"></ion-img>
-        <ion-card-header>
-          <ion-card-title>{{ food.name }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>{{ food.description }}</p>
-          <p class="price">{{ food.price | currency }}</p>
-          
-        </ion-card-content>
-      </ion-card>
-    </div>
+  <div class="card-grid">
+    <ion-card *ngFor="let food of (featuredFoodItems$ | async)" class="food-card">
+      <ion-img [src]="food.imageUrl || 'assets/default-food.jpg'"></ion-img>
+      <ion-card-header>
+        <ion-card-title>{{ food.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ food.description }}</p>
+        <p class="price">{{ food.price | currency }}</p>
+      
+        <!-- Champ pour spécifier le nombre de portions à commander -->
+        <div class="quantity-selector">
+          <ion-button fill="clear" (click)="decreaseQuantity(food)" class="quantity-button">-</ion-button>
+          <span class="quantity">{{ food.quantity || 1 }}</span>
+          <ion-button fill="clear" (click)="increaseQuantity(food)" class="quantity-button">+</ion-button>
+        </div>
+   
+      
+        <!-- Icône pour valider la commande -->
+        <ion-icon name="checkmark-circle-outline" class="validate-icon" (click)="orderFood(food)"></ion-icon>
+      </ion-card-content>
+      
+      
+    </ion-card>
+  </div>
 </ion-content>

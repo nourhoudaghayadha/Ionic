@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, finalize, from, map, switchMap } from 'rxjs';
+import { Observable, finalize, map, switchMap } from 'rxjs';
 import { Food } from '../models/food.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AuthService } from './auth.service';
+
 export interface Rating {
-    foodId: string;
-    ratingValue: number;
-  }
-  
+  foodId: string;
+  ratingValue: number;
+}
+
+export interface Order {
+  foodId: string;
+  name: string;
+  quantity: number;
+  details: string; // ou tout autre détail spécifique que vous souhaitez ajouter
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class FoodService {
- 
-  
   private apiUrl = 'https://ionicproject-5c0be-default-rtdb.firebaseio.com';
 
   constructor(
@@ -57,11 +63,6 @@ export class FoodService {
       .post<{ name: string }>(`${this.apiUrl}/food.json`, foodData)
       .pipe(map((response) => response.name));
   }
-
-
-
-
-
 
   // Retrieve a list of food items with optional filters
   getFood(filters?: any): Observable<Food[]> {
@@ -121,18 +122,19 @@ export class FoodService {
     return this.getFood({ dietaryTags: userPreferences });
   }
 
+  // Method to add an order
+  addOrder(foodId: string, name: string, quantity: number, details: string): Observable<any> {
+    const orderData: Order = { foodId, name, quantity, details };
+    return this.http.post(`${this.apiUrl}/orders.json`, orderData);
+  }
 
-
-
-  // New Interface to Handle Ratings
-
-  // Method to Add Ratings to Food Items
+  // Method to add ratings to food items
   addRating(foodId: string, ratingValue: number): Observable<any> {
     const ratingData: Rating = { foodId, ratingValue };
     return this.http.post(`${this.apiUrl}/ratings.json`, ratingData);
   }
   
-  // Method to Get Average Rating of a Food Item
+  // Method to get the average rating of a food item
   getFoodWithRating(foodId: string): Observable<Food> {
     return this.http.get<Food>(`${this.apiUrl}/food/${foodId}.json`).pipe(
       map((food) => ({
@@ -149,8 +151,21 @@ export class FoodService {
       )
     );
   }
+   // Méthode pour récupérer toutes les commandes
+   getOrders(): Observable<Order[]> {
+    return this.http.get<{ [key: string]: Order }>(`${this.apiUrl}/orders.json`).pipe(
+      map(response => 
+        response ? Object.keys(response).map(key => ({ id: key, ...response[key] })) : []
+      )
+    );
+  }
+
+  // Méthode pour supprimer une commande par ID
+  deleteOrder(orderId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/orders/${orderId}.json`);
+  }
   
-  // Helper Method to Calculate Average Rating
+  // Helper method to calculate average rating
   private calculateAverageRating(foodId: string): Observable<number> {
     return this.http
       .get<{ [key: string]: Rating }>(`${this.apiUrl}/ratings.json?orderBy="foodId"&equalTo="${foodId}"`)

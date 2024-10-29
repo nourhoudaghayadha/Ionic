@@ -78,7 +78,11 @@ const routes: Routes = [
     path: '**', // Fallback route for unknown paths
     redirectTo: 'login',
     pathMatch: 'full'
+  },  {
+    path: 'commande',
+    loadChildren: () => import('./pages/commande/commande.module').then( m => m.CommandePageModule)
   }
+
 ];
 
 @NgModule({

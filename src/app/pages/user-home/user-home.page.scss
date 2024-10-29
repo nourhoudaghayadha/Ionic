@@ -6,7 +6,39 @@
     border-radius: 12px;
     margin-bottom: 16px;
   }
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
   
+    .quantity-button {
+      font-size: 24px; // Taille de police pour les boutons
+      color: #007aff; // Couleur de votre choix
+    }
+  
+    .quantity {
+      font-size: 20px; // Taille de police pour le nombre
+      margin: 0 10px;
+    }
+  }
+  
+  ion-button {
+    display: flex;
+    align-items: center;
+  
+    ion-icon {
+      margin-right: 5px; // Espace entre l'icône et le texte
+    }
+  }
+  .validate-icon {
+    font-size: 28px; // Taille de l'icône
+    color: #007aff; // Couleur de l'icône
+    margin-top: 10px; // Espacement au-dessus de l'icône
+    cursor: pointer; // Change le curseur pour indiquer que c'est cliquable
+    text-align: center; // Centrer l'icône
+  }
+    
   .filters {
     display: flex;
     gap: 10px;

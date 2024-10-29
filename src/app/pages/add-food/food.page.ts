@@ -22,6 +22,7 @@ export class FoodPage {
     category: '',
     dietaryTags: [],
     rating: 0,
+    quantity:1,
   };
 
   selectedImage: File | null = null;

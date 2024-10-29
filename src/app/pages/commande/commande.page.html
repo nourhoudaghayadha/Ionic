@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-button slot="start" class="menu_btn">
+      <ion-back-button color="light" defaultHref="search-chef"></ion-back-button>
+    </ion-button>
+    <ion-title>Liste des commandes</ion-title>
+    <ion-icon name="notifications" slot="end"></ion-icon>
+    <ion-icon name="add" slot="end" (click)="goToFoodList()"></ion-icon>
+    <img slot="end" src="../../assets/001.jpeg">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let repas of repasList">
+    <div class="upperBox">
+      <div class="image">
+        <img [src]="repas.imageUrl" alt="{{ repas.name }}">
+      </div>
+      <div class="title">
+        <h3>{{ repas.name }}</h3>
+      </div>
+      <div class="menu">
+        <h3>
+          <ion-icon name="close" (click)="deleteRepas(repas.id)"></ion-icon>
+        </h3>
+      </div>
+      <div class="location">
+        <p>Localisation: {{ repas.quantity }}</p>
+      </div>
+      <div class="orderId">
+        <p>Order ID: #{{ repas.id }}</p>
+      </div>
+      <div class="amount">
+        <h3>${{ repas.price }}</h3>
+      </div>
+      <div class="skills">
+        <p>Compétences : {{ repas.rating }}</p>
+      </div>
+      <div class="typesFood">
+        <p>Type : {{ repas.category }}</p>
+      </div>
+      <div class="edit">
+        <button class="btn" (click)="updateRepas(repas)">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

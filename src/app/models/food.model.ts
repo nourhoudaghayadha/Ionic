@@ -1,13 +1,13 @@
 // src/app/models/food.model.ts
 export interface Food {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    imageUrl: string;
-    chefId: string; // Links to the chef who posted it
-    category: string; // e.g., "Italian", "Vegan"
-    dietaryTags?: string[]; // e.g., ["Vegetarian", "Gluten-Free"]
-    rating?: number; // Average rating
-  }
-  
+  id: string;              // ID unique du repas
+  name: string;            // Nom du repas
+  description: string;     // Description du repas
+  price: number;           // Prix du repas
+  imageUrl: string;        // URL de l'image du repas
+  chefId: string;          // ID du chef qui a posté le repas
+  category: string;        // Catégorie (ex : "Italien", "Végétalien")
+  dietaryTags?: string[];  // Tags diététiques (ex : ["Végétarien", "Sans Gluten"])
+  rating?: number;         // Évaluation moyenne
+  quantity: number;        // Quantité disponible
+}
