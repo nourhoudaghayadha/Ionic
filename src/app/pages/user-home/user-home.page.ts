@@ -18,7 +18,7 @@ export class UserHomePage implements OnInit {
   featuredFoodItems$: Observable<Food[]> | undefined;
   recommendedFoodItems$: Observable<Food[]> | undefined;
   recentOrders$: Observable<Order[]> | undefined;
-  topChefs$: Observable<any[]> | undefined; // Add this line
+  topChefs$: Observable<any[]> | undefined;
 
   selectedFoodId: string | undefined; // Selected food ID for rating
   rating: number = 0; // User-inputted rating
@@ -29,23 +29,29 @@ export class UserHomePage implements OnInit {
     private orderService: OrderService,
     private chefService: ChefService
   ) {
-    this.userName$ = from(this.authService.getUserName());
+    this.userName$ = this.authService.getUserName(); // Directly use the Observable from AuthService
   }
 
-  async ngOnInit() {
-    this.role = await this.authService.getUserRole();
-    this.featuredFoodItems$ = this.foodService.getFeaturedFoodItems();
+  ngOnInit() {
+    // Subscribe to get user role
+    this.authService.getUserRole().subscribe(role => {
+      this.role = role;
+      this.featuredFoodItems$ = this.foodService.getFeaturedFoodItems();
 
-    if (this.role === 'user') {
-      const userPreferences: string[] = ['vegan', 'low-carb'];
-      this.recommendedFoodItems$ = this.foodService.getRecommendedFoodItems(userPreferences);
-      const userId = await this.authService.getCurrentUserId();
-      if (userId) {
-        this.recentOrders$ = this.orderService.getUserRecentOrders(userId);
+      if (this.role === 'user') {
+        // Get user preferences from AuthService or set a default
+        this.authService.getCurrentUserId().subscribe(userId => {
+          if (userId) {
+            // Get user preferences from some service or make an assumption
+            const userPreferences: string[] = ['vegan', 'low-carb']; // Replace this with actual user preferences if available
+            this.recommendedFoodItems$ = this.foodService.getRecommendedFoodItems(userPreferences);
+            this.recentOrders$ = this.orderService.getUserRecentOrders(userId);
+          }
+        });
+      } else if (this.role === 'chef') {
+        this.topChefs$ = this.chefService.getTopChefs();
       }
-    } else if (this.role === 'chef') {
-      this.topChefs$ = this.chefService.getTopChefs();
-    }
+    });
   }
 
   submitRating() {

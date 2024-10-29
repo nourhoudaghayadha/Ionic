@@ -14,6 +14,12 @@
     justify-content: space-around;
     margin-bottom: 16px;
   }
+
+  ion-toolbar{
+
+    background: #000;
+
+  }
   
   .section-title {
     margin: 20px 0 10px;
@@ -44,3 +50,6 @@
     margin-top: 8px;
   }
   
+  ion-content {
+    --background: #36373b;
+  }

@@ -34,7 +34,7 @@ export class FirstPagePage implements OnInit {
   }
 
   async ngOnInit() {
-    this.role = await this.authService.getUserRole();
+    // this.role = await this.authService.getUserRole();
     this.featuredFoodItems$ = this.foodService.getFeaturedFoodItems();
 
     if (this.role === 'user') {
@@ -42,7 +42,7 @@ export class FirstPagePage implements OnInit {
       this.recommendedFoodItems$ = this.foodService.getRecommendedFoodItems(userPreferences);
       const userId = await this.authService.getCurrentUserId();
       if (userId) {
-        this.recentOrders$ = this.orderService.getUserRecentOrders(userId);
+        // this.recentOrders$ = this.orderService.getUserRecentOrders(userId);
       }
     } else if (this.role === 'chef') {
       this.topChefs$ = this.chefService.getTopChefs();

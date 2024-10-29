@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, finalize, map, switchMap } from 'rxjs';
+import { Observable, finalize, from, map, switchMap } from 'rxjs';
 import { Food } from '../models/food.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AuthService } from './auth.service';
 export interface Rating {
     foodId: string;
     ratingValue: number;
@@ -13,49 +14,54 @@ export interface Rating {
 })
 export class FoodService {
  
-  getFilteredFood(filters: any): Observable<Food[]> | undefined {
-    throw new Error('Method not implemented.');
-  }
-  getChefFoodItems(): Observable<Food[]> | undefined {
-    throw new Error('Method not implemented.');
-  }
+  
   private apiUrl = 'https://ionicproject-5c0be-default-rtdb.firebaseio.com';
 
   constructor(
     private http: HttpClient,
-    private storage: AngularFireStorage // Inject AngularFireStorage
+    private storage: AngularFireStorage,
+    private authService: AuthService
   ) {}
 
-  // Upload an image to Firebase Storage and get the download URL
+  getLatestChefFoodItems(chefId: string): Observable<Food[]> {
+    const url = `${this.apiUrl}/food.json?orderBy="chefId"&equalTo="${chefId}"`;
+    return this.http.get<{ [key: string]: Food }>(url).pipe(
+      map((response) =>
+        response ? Object.entries(response).map(([id, food]) => ({ ...food, id })) : []
+      )
+    );
+  }
+
   uploadImage(file: File): Observable<string> {
     const filePath = `food-images/${file.name}`;
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
 
     return new Observable((observer) => {
-      task
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe(
-              (url) => {
-                observer.next(url); // Emit the download URL
-                observer.complete();
-              },
-              (error) => observer.error(error) // Emit an error if the upload fails
-            );
-          })
-        )
-        .subscribe();
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(
+            (url) => {
+              observer.next(url);
+              observer.complete();
+            },
+            (error) => observer.error(error)
+          );
+        })
+      ).subscribe();
     });
   }
 
-  // Add a food item to Firebase and get the generated ID
   addFood(foodData: Omit<Food, 'id'>): Observable<string> {
     return this.http
       .post<{ name: string }>(`${this.apiUrl}/food.json`, foodData)
-      .pipe(map((response) => response.name)); // Extract the document ID
+      .pipe(map((response) => response.name));
   }
+
+
+
+
+
 
   // Retrieve a list of food items with optional filters
   getFood(filters?: any): Observable<Food[]> {

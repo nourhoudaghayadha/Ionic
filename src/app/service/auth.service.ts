@@ -1,8 +1,10 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserService } from './user/user.service';
+import { Observable, of } from 'rxjs';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,30 +12,48 @@ import { UserService } from './user/user.service';
 export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
-    private firestore: AngularFirestore,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
+
   ) {}
 
-  async getUserRole(): Promise<string> {
-    const user = await this.afAuth.currentUser;
-    if (user) {
-      const role = await this.userService.getUserRole(user.uid).toPromise();
-      return role || 'hha';
-    }
-    return 'user';
+  // Retrieve the user's role or default to 'user'
+  getUserRole(): Observable<string> {
+    return this.afAuth.authState.pipe(
+      switchMap(user => 
+        user ? this.userService.getUserRole(user.uid) : of('user')
+      ),
+      catchError(error => {
+        console.error('Error retrieving user role:', error);
+        return of('user'); // Default on error
+      })
+    );
   }
 
-  async getCurrentUserId(): Promise<string | null> {
-    const user = await this.afAuth.currentUser;
-    return user ? user.uid : null;
+  // Get current user ID or return null
+  getCurrentUserId(): Observable<string | null> {
+    return this.afAuth.authState.pipe(
+      map(user => user?.uid ?? null)
+    );
   }
 
-  async logout(): Promise<void> {
-    return this.afAuth.signOut();
+  // Sign out the user
+ // src/app/services/auth.service.ts
+async logout(): Promise<void> {
+  try {
+    await this.afAuth.signOut();
+    this.router.navigate(['/login'], { replaceUrl: true }); // Clears history stack
+  } catch (error) {
+    console.error('Error during logout:', error);
+    throw error;
   }
+}
 
-  async getUserName(): Promise<string> {
-    const user = await this.afAuth.currentUser;
-    return user?.displayName || '';
+
+  // Retrieve the user's display name or empty string
+  getUserName(): Observable<string> {
+    return this.afAuth.authState.pipe(
+      map(user => user?.displayName ?? '')
+    );
   }
 }
