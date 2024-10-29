@@ -1,41 +1,66 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Add Food Item</ion-title>
+  <ion-toolbar color="primary">
+      <ion-title class="header-title">Add Food Item</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <form #foodForm="ngForm" (ngSubmit)="onSubmit(foodForm)">
-    <ion-item>
-      <ion-label position="floating">Food Name</ion-label>
-      <ion-input type="text" name="name" [(ngModel)]="food.name" required></ion-input>
-    </ion-item>
+<ion-content class="add-food-content" color="light">
+  <div class="form-wrapper"> <!-- Wrapping form in a div for better styling -->
+      <form #foodForm="ngForm" (ngSubmit)="onSubmit(foodForm)" class="add-food-form">
+          <ion-item>
+              <ion-label position="floating">Food Name</ion-label>
+              <ion-input type="text" name="name" [(ngModel)]="food.name" required></ion-input>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Description</ion-label>
-      <ion-textarea name="description" [(ngModel)]="food.description" required></ion-textarea>
-    </ion-item>
+          <ion-item>
+              <ion-label position="floating">Description</ion-label>
+              <ion-textarea name="description" [(ngModel)]="food.description" required></ion-textarea>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Price</ion-label>
-      <ion-input type="number" name="price" [(ngModel)]="food.price" required></ion-input>
-    </ion-item>
+          <ion-item>
+            <ion-label position="floating">Price ($)</ion-label>
+            <ion-input 
+                type="number" 
+                name="price" 
+                [(ngModel)]="food.price" 
+                min="0" 
+                required 
+                (ionInput)="formatPrice($event)" 
+                placeholder="0.00">
+            </ion-input>
+        </ion-item>
+        
 
-    <ion-item>
-      <ion-label position="floating">Category</ion-label>
-      <ion-input type="text" name="category" [(ngModel)]="food.category" required></ion-input>
-    </ion-item>
+          <ion-item>
+              <ion-label>Category</ion-label>
+              <ion-select [(ngModel)]="food.category" name="category" interface="alert" required>
+                  <ion-select-option *ngFor="let category of categories" [value]="category">
+                      {{ category }}
+                  </ion-select-option>
+              </ion-select>
+          </ion-item>
 
-    <ion-item>
-      <ion-label>Upload Image</ion-label>
-      <input type="file" (change)="onFileSelected($event)" accept="image/*" required />
-    </ion-item>
+          <ion-item>
+              <ion-label>Dietary Tags</ion-label>
+              <ion-select [(ngModel)]="food.dietaryTags" name="dietaryTags" multiple="true" interface="popover">
+                  <ion-select-option *ngFor="let tag of dietaryTags" [value]="tag">
+                      {{ tag }}
+                  </ion-select-option>
+              </ion-select>
+          </ion-item>
 
-    <ion-item *ngIf="food.imageUrl">
-      <ion-label>Image Preview</ion-label>
-      <img [src]="food.imageUrl" alt="Food Image" style="max-width: 200px; max-height: 200px;"/>
-    </ion-item>
+          <ion-item lines="none">
+              <ion-label>Upload Image</ion-label>
+              <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="!foodForm.valid || !selectedImage">Submit</ion-button>
-  </form>
+          <ion-item *ngIf="food.imageUrl">
+              <img [src]="food.imageUrl" alt="Food Image" class="image-preview" />
+          </ion-item>
+
+          <ion-button expand="block" type="submit" class="submit-button" [disabled]="!foodForm.valid || !selectedImage">
+              Submit
+          </ion-button>
+      </form>
+  </div>
 </ion-content>

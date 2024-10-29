@@ -1,10 +1,17 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Chef Dashboard</ion-title>
+    <ion-buttons slot="start">
+      <div class="avatar">
+        <img src="assets/R.png" alt="User Avatar" />
+      </div>
+    </ion-buttons>
+    <ion-title>Food for You</ion-title>
     <ion-buttons slot="end">
-      <ion-button *ngIf="!role" routerLink="/login">Login</ion-button>
-      <ion-button *ngIf="!role" routerLink="/signup">Signup</ion-button>
-      <ion-button *ngIf="role" (click)="logout()">Logout</ion-button>
+      <!-- Show Login/Signup buttons if no role is present -->
+      <ion-button *ngIf="!role" routerLink="/login" color="tertiary">Login</ion-button>
+      <ion-button *ngIf="!role" routerLink="/signup" color="tertiary">Signup</ion-button>
+      <!-- Show Logout button if a role is present -->
+      <ion-button *ngIf="role" (click)="logout()" color="danger">Logout</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -22,16 +29,23 @@
 
   <h2 class="section-title">Your Latest Food Posts</h2>
   <div class="card-grid">
-    <ion-card *ngFor="let food of chefFoodItems$ | async">
-      <ion-img [src]="food.imageUrl || 'assets/default-food.jpg'"></ion-img>
-      <ion-card-header>
-        <ion-card-title>{{ food.name }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>{{ food.description }}</p>
-        <p>{{ food.price | currency }}</p>
-      </ion-card-content>
-    </ion-card>
-    <p *ngIf="!(chefFoodItems$ | async)?.length">No food items available.</p> <!-- Show message if no items -->
+    <ng-container *ngIf="chefFoodItems$ | async as foods; else noFood">
+      <ion-card *ngFor="let food of foods" (click)="onEdit(food)">
+        <ion-img [src]="food.imageUrl || 'assets/default-food.jpg'"></ion-img>
+        <ion-card-header>
+          <ion-card-title>{{ food.name }}</ion-card-title>
+          <!-- Delete button as an 'X' icon -->
+          
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ food.description }}</p>
+          <p>{{ food.price | currency }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <ng-template #noFood>
+      <p>No food items available.</p>
+    </ng-template>
   </div>
 </ion-content>

@@ -1,3 +1,20 @@
+/* Neutral header toolbar styling */
+ion-toolbar {
+  --background: #f8f9fa; /* Light gray background */
+  --color: #333; /* Dark text */
+  font-weight: bold;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Avatar styling */
+.avatar img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Banner with a subtle gradient */
 .banner {
     text-align: center;
     padding: 20px;

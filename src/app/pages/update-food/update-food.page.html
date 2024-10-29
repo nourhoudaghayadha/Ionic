@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="header-title">Update Food Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="update-food-content" color="light">
+  <div class="form-wrapper">
+    <form #foodForm="ngForm" (ngSubmit)="onSubmit(foodForm)" class="update-food-form">
+      <ion-item>
+        <ion-label position="floating">Food Name</ion-label>
+        <ion-input type="text" name="name" [(ngModel)]="food.name" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-textarea name="description" [(ngModel)]="food.description" required></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Price ($)</ion-label>
+        <ion-input 
+            type="number" 
+            name="price" 
+            [(ngModel)]="food.price" 
+            min="0" 
+            required 
+            (ionInput)="formatPrice($event)" 
+            placeholder="0.00">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Category</ion-label>
+        <ion-select [(ngModel)]="food.category" name="category" interface="alert" required>
+          <ion-select-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Dietary Tags</ion-label>
+        <ion-select [(ngModel)]="food.dietaryTags" name="dietaryTags" multiple="true" interface="popover">
+          <ion-select-option *ngFor="let tag of dietaryTags" [value]="tag">
+            {{ tag }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Upload New Image (optional)</ion-label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      </ion-item>
+
+      <ion-item *ngIf="food.imageUrl">
+        <img [src]="food.imageUrl" alt="Food Image" class="image-preview" />
+      </ion-item>
+
+      <ion-button expand="block" type="submit" class="submit-button" [disabled]="!foodForm.valid">
+        Update
+      </ion-button>
+      <ion-button expand="block" color="danger" (click)="deleteFoodItem()" class="delete-button">
+  Delete
+</ion-button>
+
+    </form>
+  </div>
+</ion-content>

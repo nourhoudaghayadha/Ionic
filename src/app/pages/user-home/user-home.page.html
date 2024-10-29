@@ -1,5 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <!-- Avatar -->
+      <div class="avatar">
+        <img src="assets/R.png" alt="User Avatar" />
+      </div>
+    </ion-buttons>
     <ion-title>Food for You</ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="!role" routerLink="/login">Login</ion-button>
@@ -12,10 +18,11 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="ion-padding">
   <div class="banner">
-    <h1>Hello, {{ (userName$ | async) || 'User' }}!</h1>
-    <p>Discover delicious food items tailored just for you.</p>
+    <h1>Welcome, {{ (userName$ | async) || 'User' }}!</h1>
+    <p>Find and enjoy the best dishes crafted just for you.</p>
   </div>
 
   <div class="filters" (ionInput)="filterFood()">

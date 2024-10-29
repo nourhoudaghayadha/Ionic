@@ -60,6 +60,15 @@ export class UserHomePage implements OnInit {
     });
   }
 
+
+  // async openFoodDetail(food: Food) {
+  //   const modal = await this.modalController.create({
+  //     component: FoodDetailModalComponent,
+  //     componentProps: { food }
+  //   });
+  //   await modal.present();
+  // }
+
   submitRating() {
     if (this.selectedFoodId && this.rating > 0) {
       this.foodService.addRating(this.selectedFoodId, this.rating).subscribe({

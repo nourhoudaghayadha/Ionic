@@ -43,7 +43,8 @@ export class LoginPage implements OnInit {
 
       // Navigate based on the user role
       if (userRole === 'chef') {
-        this.router.navigate(['/chefdetails']);
+        // this.router.navigate(['/chefdetails']);
+        this.router.navigate(['/chef-home']);
       } else {
         this.router.navigate(['/user-home']);
       }

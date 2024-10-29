@@ -23,4 +23,11 @@ export class UserService {
       map(user => user?.preferences ?? []) // Return empty array if no preferences
     );
   }
+
+    // Retrieve user profile by user ID (includes avatar)
+    getUserProfile(userId: string): Observable<User | null> {
+      return this.firestore.collection<User>('users').doc(userId).valueChanges().pipe(
+        map(user => user ?? null)
+      );
+    }
 }
